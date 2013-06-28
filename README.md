@@ -31,16 +31,16 @@ Configuration Options
 scm.validBranch - The valid branch name (s) for this build. [master]
 
 scm.failOnGitBranchCheck - If true, do not fail if current branch is not the
-configured validBranch. [false]
+configured validBranch. [true]
 
 scm.failOnGitCommitCheck - If true, do not fail if uncommitted changes are
-detected. [false]
+detected. [true]
 
 scm.failOnGitPushedCheck - If true, do not fail if unpushed change sets.
-detected. [false]
+detected. [true]
 
 scm.failOnGitOriginCheck - If true, do not fail if origin unpulled change.
-sets detected. [false]
+sets detected. [true]
 
 scm.appendRevToWarName - If true, append the current git repository revision to the war file name. [false]
 
