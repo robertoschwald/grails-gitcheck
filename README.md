@@ -33,7 +33,7 @@ scm.validBranch - The valid branch name (s) for this build. [master]
 scm.failOnGitBranchCheck - If true, do not fail if current branch is not the
 configured validBranch. [false]
 
-scm.failOnGitCommitCheck - If true, d<o not fail if uncommitted changes are
+scm.failOnGitCommitCheck - If true, do not fail if uncommitted changes are
 detected. [false]>
 
 scm.failOnGitPushedCheck - If true, do not fail if unpushed change sets.
@@ -54,7 +54,7 @@ Git client used
 ---------------
 
 Due to the current lack of HTTP Basic Authentication support by ~/.netrc or
-<credential.helper> in JGit, this plugin for now uses the native git client installed in your OS.
+credential.helper in JGit, this plugin for now uses the native git client installed in your OS.
 
 
 
