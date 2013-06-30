@@ -32,11 +32,11 @@ scm.validBranch - The valid branch name (s) for this build. [master]
 
 scm.skipGitBranchCheck - If true, do not perform the git branch check [false]
 
-scm.skipGitCommitCheck - If true, do not perform uncommitted changes check. [true]
+scm.skipGitCommitCheck - If true, do not perform uncommitted changes check. [false]
 
-scm.skipGitPushedCheck - If true, do not perform unpushed change sets check. [true]
+scm.skipGitPushedCheck - If true, do not perform unpushed change sets check. [false]
 
-scm.failOnGitOriginCheck - If true, perform origin unpulled change sets check. [true]
+scm.skipGitOriginCheck - If true, perform origin unpulled change sets check. [false]
 
 scm.appendRevToWarName - If true, append the current git repository revision to the war file name. [false]
 
