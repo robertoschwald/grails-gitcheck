@@ -6,7 +6,6 @@ import org.eclipse.jgit.lib.Constants
 import org.eclipse.jgit.lib.ObjectId
 import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.lib.RepositoryCache
-import org.eclipse.jgit.storage.file.FileRepository
 import org.eclipse.jgit.util.FS
 
 /**
@@ -18,29 +17,37 @@ import org.eclipse.jgit.util.FS
  *
  */
 class GitClient {
-  private static final GIT_DIR = "${BuildSettingsHolder.settings.baseDir}/.git"
 
-  static Repository getRepo = {
-    RepositoryCache.open(RepositoryCache.FileKey.lenient(new File(GIT_DIR), FS.DETECTED), true)
+  private static Repository getRepo(String repoBasePath) {
+    def baseDir = repoBasePath;
+    if (!baseDir && BuildSettingsHolder?.settings?.baseDir) {
+      baseDir = "${BuildSettingsHolder?.settings?.baseDir}/.git"
+    } else if (!baseDir) {
+      baseDir = '.'  // fallback
+    }
+    RepositoryCache.open(RepositoryCache.FileKey.lenient(new File(baseDir), FS.DETECTED), true)
   }
 
   /* get current revision */
+
   public static def currentRevision() {
     assert checkGitRepo(), "This project doesn't seem to be backed by a Git repository."
-    def repository = getRepo
+    def repository = getRepo()
     ObjectId objId = repository.resolve(Constants.HEAD);
     return "${objId.getName()}"
   }
 
   /* get current branch name */
-  public static def currentBranchName() {
-    def repository = new FileRepository(GIT_DIR)
+
+  public static def currentBranchName(String _baseDir) {
+    def repository = getRepo(_baseDir)
     return repository.getFullBranch().substring(Constants.R_HEADS.length())
   }
 
   /* get untracked changes */
+
   public static def uncommittedChanges() {
-    Git git = new Git(getRepo(GIT_DIR))
+    Git git = new Git(getRepo())
     def uncommitted = []
     def status = git.status().call()
     uncommitted << status.getModified()
@@ -49,30 +56,31 @@ class GitClient {
     uncommitted << status.getConflicting()
     uncommitted << status.getRemoved()
     uncommitted << status.getUntracked()
-    uncommitted
+    uncommitted.flatten()
   }
 
   /* get any origin pending change set updates */
   /* Note: Due to the lack of HTTP Authentication support in
      JGit, we use the installed local native git client.
    */
+
   static def fetchPendingOriginChanges(path, progressMonitor) {
     try {
-     /* JGIT once we know how to authenticate http urls the same way as native git.
-      def repository = getRepo
-      Git git = new Git(repository)
-      FetchResult result = git.fetch()
-          .setRemoveDeletedRefs(true)
-          .call()
-      return result
-      */
+      /* JGIT once we know how to authenticate http urls the same way as native git.
+       def repository = getRepo
+       Git git = new Git(repository)
+       FetchResult result = git.fetch()
+           .setRemoveDeletedRefs(true)
+           .call()
+       return result
+       */
     } catch (Exception e) {
       throw new Exception(e.cause.message)
     }
   }
 
   static def checkGitRepo(String repoPath) {
-    return new File(GIT_DIR).exists()
+    return new File('${repoPath}/.git').exists()
   }
 
   static boolean branchIsAheadOfRemote() {
@@ -93,24 +101,23 @@ class GitClient {
     return remoteModifications
   }
 
-
   // Helper for external git.
-  private static def gitExec(List gitArgs, boolean removeNewLines = false) {
-    def stdout = new ByteArrayOutputStream()
-    def proc = 'git $gitArgs'.execute()
-    def stdErr =  ${proc.err.text}
-    def stdOut = ${proc.in.text}
-    if (stdout.toByteArray().length > 0) {
-      def result = stdout.toString()
-      println "#" * 10
-      println "removeNewLines: " + removeNewLines
+  private static String gitExec(List gitArgs, boolean removeNewLines = false) {
+    def proc = ['git', gitArgs].flatten().execute()
+    def stdErr = proc.err.text
+    if (!stdErr.isEmpty()) {
+      throw new GitException(stdErr)
+    }
+    def stdOut = proc.in.text
+    if (!stdOut.isEmpty()) {
+      def result = stdOut
+      def logStr = "#" * 10
       if (removeNewLines) {
         result = result.replaceAll("\\n", "")
         result = result.replaceAll("\\r", "")
         result = result.replaceAll("\\f", "")
       }
-      println " - ${gitArgs}:  >${result}<"
-      println "#" * 10
+      // println " $logStr - ${gitArgs}:  >${result}< \n ${"#" * 10}"
       result
     } else {
       null
