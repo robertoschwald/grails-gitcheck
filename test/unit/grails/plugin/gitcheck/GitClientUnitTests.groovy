@@ -1,4 +1,4 @@
-package grails.plugin.gitcheck.GitClientUnitTests
+package grails.plugin.gitcheck
 
 import grails.plugin.gitcheck.GitClient
 import grails.test.GrailsUnitTestCase
@@ -52,8 +52,9 @@ class GitClientUnitTests extends GrailsUnitTestCase {
     testFile.delete()
   }
 
-  void testRemoteIsAheadOfBranch(){
+ /* can only be tested when pushing a change in another git client.
+    void testRemoteIsAheadOfBranch(){
     log.debug("testBranchIsAheadOfRemote()")
     assert GitClient.remoteIsAheadOfBranch(GitClient.currentBranchName()), "Origin is ahead of branch. Please perform pull"
-  }
+  }*/
 }

@@ -33,7 +33,7 @@ class GitClient {
 
   public static def currentRevision() {
     assert checkGitRepo(), "This project doesn't seem to be backed by a Git repository."
-    def repository = getRepo()
+    Repository repository = getRepo()
     ObjectId objId = repository.resolve(Constants.HEAD);
     return "${objId.getName()}"
   }
@@ -68,7 +68,7 @@ class GitClient {
   public static def removeFromIndex(String fileName){
     Git git = new Git(getRepo())
     def result = git.rm().addFilepattern(fileName).call()
-    println "removed $fileName from index. Result: $result"
+    println "removed $fileName from index."
   }
 
   public static def commit(String message){
@@ -115,7 +115,7 @@ class GitClient {
     }
   }
 
-  static def checkGitRepo(String repoPath) {
+  static boolean checkGitRepo(String repoPath) {
     return new File('${repoPath}/.git').exists()
   }
 

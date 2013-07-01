@@ -35,7 +35,7 @@ Provides the ability to check Git respoitory status, e.g. uncommited files, miss
     def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GRAILSPLUGINS" ]
 
     // Online location of the plugin's browseable source code.
-    def scm = [ url: "https://github.com/grails-plugins/grails-gitcheck" ]
+    def scm = [ url: "https://github.com/robertoschwald/grails-gitcheck" ]
 
     def doWithWebDescriptor = { xml ->
         // TODO Implement additions to web.xml (optional), this event occurs before
