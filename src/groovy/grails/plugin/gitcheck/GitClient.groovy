@@ -68,7 +68,7 @@ class GitClient {
   public static def removeFromIndex(String fileName){
     Git git = new Git(getRepo())
     def result = git.rm().addFilepattern(fileName).call()
-    println "removed $fileName from index. Result: result"
+    println "removed $fileName from index. Result: $result"
   }
 
   public static def commit(String message){
