@@ -22,9 +22,11 @@ class GitClient {
   private static Repository getRepo(String repoBasePath) {
     def baseDir = repoBasePath;
     if (!baseDir && BuildSettingsHolder?.settings?.baseDir) {
-      baseDir = "${BuildSettingsHolder?.settings?.baseDir}/.git"
+      baseDir = "${BuildSettingsHolder?.settings?.baseDir}"
+      println "Basedir $baseDir"
     } else if (!baseDir) {
       baseDir = '.'  // fallback
+      println "using . as repodir"
     }
     RepositoryCache.open(RepositoryCache.FileKey.lenient(new File(baseDir), FS.DETECTED), true)
   }
@@ -32,7 +34,6 @@ class GitClient {
   /* get current revision */
 
   public static def currentRevision() {
-    assert checkGitRepo(), "This project doesn't seem to be backed by a Git repository."
     Repository repository = getRepo()
     ObjectId objId = repository.resolve(Constants.HEAD);
     return "${objId.getName()}"
@@ -95,28 +96,8 @@ class GitClient {
     println "removed last commit."
   }
 
-  /* get any origin pending change set updates */
-  /* Note: Due to the lack of HTTP Authentication support in
-     JGit, we use the installed local native git client.
-   */
-
-  static def fetchPendingOriginChanges(path, progressMonitor) {
-    try {
-      /* JGIT once we know how to authenticate http urls the same way as native git.
-       def repository = getRepo
-       Git git = new Git(repository)
-       FetchResult result = git.fetch()
-           .setRemoveDeletedRefs(true)
-           .call()
-       return result
-       */
-    } catch (Exception e) {
-      throw new Exception(e.cause.message)
-    }
-  }
-
-  static boolean checkGitRepo(String repoPath) {
-    return new File('${repoPath}/.git').exists()
+  static boolean checkGitRepo() {
+    return new File("./.git").exists()
   }
 
   static boolean branchIsAheadOfRemote() {
