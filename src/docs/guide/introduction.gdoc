@@ -1,0 +1,42 @@
+This plugin provides the ability to check git status of a local repository on
+war file generation.
+
+It can be used to ensure your changes are committed and pushed as well as your
+project is current while generating a war file.
+
+The following tests are performed:
+
+* Check for valid branch name
+* Check for uncommitted changes
+* Check for unpushed change sets
+* Check for unpulled origin change sets
+
+h4. Configuration
+In your Config.groovy file, you can set the gitcheck properties on a per-Environment base.
+Example
+
+{code}
+// default branch(es)
+scm.validBranch = ['master']
+
+integration {
+    scm.validBranch = 'deploy/integration'
+    scm.skipGitPushedCheck = true
+}
+
+integration2 {
+    scm.validBranch = 'integration2'
+    scm.skipGitOriginCheck = true
+}
+
+production {
+    scm.validBranch = 'deploy/production'
+}
+
+{code}
+
+
+h4. Release History and Acknowledgment
+* July 1st, 2013
+** 0.1 snapshot
+** [JIRA Issues|Jira: t.b.d.]
