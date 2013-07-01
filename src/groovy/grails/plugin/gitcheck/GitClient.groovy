@@ -84,7 +84,7 @@ class GitClient {
   }
 
   public static def deleteLastCommit(){
-    Git git = new Git(gitRepo())
+    Git git = new Git(getRepo())
     git.reset().setMode(ResetCommand.ResetType.SOFT).setRef('HEAD^')
     println "removed last commit."
   }
