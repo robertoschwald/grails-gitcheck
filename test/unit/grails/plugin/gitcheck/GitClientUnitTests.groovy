@@ -37,11 +37,17 @@ class GitClientUnitTests extends GrailsUnitTestCase {
 
   void testBranchIsAheadOfRemote(){
     log.debug("testBranchIsAheadOfRemote()")
-    def testFileName = "testBrancAheadOfRemote.testfile"
+    def testFileName = "testBranchAheadOfRemote.testfile"
     File testFile = new File(testFileName)
     if (!testFile.exists()) testFile.createNewFile()
+    // add to index
+    GitClient.addFile(testFileName)
+    // commit
+    GitClient.commit("testBranchIsAheadOfRemote test commit")
     def isAhead = GitClient.branchIsAheadOfRemote()
-    assert isAhead, 'Repo must be ahead of origin, but result is $isAhead'
+    assert isAhead, "Repo must be ahead of origin, but result is $isAhead"
+    // delete commit
+    GitClient.deleteLastCommit()
     testFile.delete()
   }
 

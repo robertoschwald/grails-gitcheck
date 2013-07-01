@@ -2,6 +2,7 @@ package grails.plugin.gitcheck
 
 import grails.util.BuildSettingsHolder
 import org.eclipse.jgit.api.Git
+import org.eclipse.jgit.api.ResetCommand
 import org.eclipse.jgit.lib.Constants
 import org.eclipse.jgit.lib.ObjectId
 import org.eclipse.jgit.lib.Repository
@@ -57,6 +58,35 @@ class GitClient {
     uncommitted << status.getRemoved()
     uncommitted << status.getUntracked()
     uncommitted.flatten()
+  }
+
+  public static def addFile(String fileName){
+    Git git = new Git(getRepo())
+    git.add().addFilepattern(fileName).call()
+  }
+
+  public static def commit(String message){
+    Git git = new Git(getRepo())
+    git.commit().setMessage(message).call()
+  }
+
+  public static def push(){
+    Git git = new Git(getRepo())
+    git.push().call()
+  }
+
+  /* Pull from origin */
+  public static def pull(){
+    // Note: cannot use Jgit yet due to HTTP auth impl problem
+    // Git git = new Git(getRepo())
+    // git.pull().call()
+    gitExec(['pull'])
+  }
+
+  public static def deleteLastCommit(){
+    Git git = new Git(gitRepo())
+    git.reset().setMode(ResetCommand.ResetType.SOFT).setRef('HEAD^')
+    println "removed last commit."
   }
 
   /* get any origin pending change set updates */
