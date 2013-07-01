@@ -1,7 +1,4 @@
 import grails.plugin.gitcheck.GitClient
-import org.eclipse.jgit.lib.Constants
-import org.eclipse.jgit.lib.ObjectId
-import org.eclipse.jgit.storage.file.FileRepository
 
 eventCreateWarStart = { warName, stagingDir ->
 
