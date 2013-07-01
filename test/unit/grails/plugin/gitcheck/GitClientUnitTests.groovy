@@ -48,6 +48,7 @@ class GitClientUnitTests extends GrailsUnitTestCase {
     assert isAhead, "Repo must be ahead of origin, but result is $isAhead"
     // delete commit
     GitClient.deleteLastCommit()
+    GitClient.removeFromIndex(testFileName)
     testFile.delete()
   }
 

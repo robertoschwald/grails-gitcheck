@@ -65,6 +65,11 @@ class GitClient {
     git.add().addFilepattern(fileName).call()
   }
 
+  public static def removeFromIndex(String fileName){
+    Git git = new Git(getRepo())
+    git.rm().addFilepattern(fileName).call()
+  }
+
   public static def commit(String message){
     Git git = new Git(getRepo())
     git.commit().setMessage(message).call()
