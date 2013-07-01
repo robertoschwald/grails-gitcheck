@@ -1,21 +1,15 @@
-grails.project.class.dir = "target/classes"
-grails.project.test.class.dir = "target/test-classes"
-grails.project.test.reports.dir = "target/test-reports"
+grails.project.work.dir = 'target'
 
 grails.project.dependency.resolution = {
 
-  // inherit Grails' default dependencies
-  inherits("global") {
-    // uncomment to disable ehcache
-    // excludes 'ehcache'
-  }
-  log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+  inherits 'global'
+  log "warn"
+
   repositories {
     mavenRepo "http://192.168.121.100:8081/artifactory/libs-releases"
     grailsCentral()
-    //mavenLocal()
-    mavenCentral()
   }
+
   dependencies {
     compile "org.eclipse.jgit:org.eclipse.jgit:2.3.1.201302201838-r"
     test("org.gmock:gmock:0.8.1") {
@@ -24,7 +18,7 @@ grails.project.dependency.resolution = {
   }
 
   plugins {
-    build(":release:2.2.0") {
+    build(":release:2.2.0", ':rest-client-builder:1.0.3') {
       export = false
     }
   }
