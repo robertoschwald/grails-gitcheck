@@ -67,7 +67,8 @@ class GitClient {
 
   public static def removeFromIndex(String fileName){
     Git git = new Git(getRepo())
-    git.rm().addFilepattern(fileName).call()
+    def result = git.rm().addFilepattern(fileName).call()
+    println "removed $fileName from index. Result: result"
   }
 
   public static def commit(String message){
@@ -90,7 +91,7 @@ class GitClient {
 
   public static def deleteLastCommit(){
     Git git = new Git(getRepo())
-    git.reset().setMode(ResetCommand.ResetType.SOFT).setRef('HEAD^')
+    git.reset().setMode(ResetCommand.ResetType.SOFT).setRef('HEAD^').call()
     println "removed last commit."
   }
 
