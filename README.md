@@ -49,10 +49,13 @@ scm.appendRevToWarName - If true, append the current git repository revision to 
 Git client used
 ---------------
 
-This plugin uses JGit as a dependency and the native git client installed in your OS.
-Due to the current lack of HTTP Basic Authentication support by ~/.netrc or
-credential.helper in JGit, this plugin for now uses the native git client installed in your OS for all
-remote operations.
+This plugin uses JGit as a dependency and the native Git client installed in your OS.
+
+Due to the current lack of HTTP Basic Authentication support using .netrc or
+credential.helper authentication in JGit, this plugin for now uses the native Git client installed in your OS for all
+remote operations to support Git, SSH and HTTP(s) protocols.
+
+Please ensure your native Git client is available on the PATH environment variable.
 
 
 
