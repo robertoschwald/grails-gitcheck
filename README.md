@@ -38,8 +38,6 @@ scm.skipGitPushedCheck - If true, do not perform unpushed change sets check. [fa
 
 scm.skipGitOriginCheck - If true, perform origin unpulled change sets check. [false]
 
-scm.appendRevToWarName - If true, append the current git repository revision to the war file name. [false]
-
 
 
 [value] denotes default values.

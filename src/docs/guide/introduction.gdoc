@@ -12,22 +12,35 @@ The following tests are performed:
 * Check for unpulled origin change sets
 
 h4. Configuration
-In your Config.groovy file, you can set the gitcheck properties on a per-Environment base.
-Example
+You can control the plugin behavior by the following configuration options (usually set in Config.groovy):
+
+* scm.validBranch - The valid branch name(s) for this build
+* scm.skipGitBranchCheck - If true, do not perform the Git branch check \[false\]
+* scm.skipGitCommitCheck - If true, do not perform uncommitted changes check. \[false\]
+* scm.skipGitPushedCheck - If true, do not perform unpushed change sets check. \[false\]
+* scm.skipGitOriginCheck - If true, perform origin unpulled change sets check. \[false\]
+
+You can set the gitcheck properties as usual on a per-Environment base.
+Example:
 
 {code}
-// default branch(es)
-scm.validBranch = ['master']
+scm.validBranch = 'master' // default branch
 
-integration {
-    scm.validBranch = 'deploy/integration'
+development {
+    scm.skipGitCommitCheck = true
     scm.skipGitPushedCheck = true
-}
-
-integration2 {
-    scm.validBranch = 'integration2'
     scm.skipGitOriginCheck = true
 }
+
+ci {
+    scm.validBranch = 'ci'
+}
+
+testserver1 {
+    scm.validBranch = 'deploy/testserver1'
+    scm.skipGitPushedCheck = true // just an example
+}
+
 
 production {
     scm.validBranch = 'deploy/production'
@@ -35,8 +48,25 @@ production {
 
 {code}
 
+h4. Current Revision
+You can import the GitClient into your BuildConfig.groovy to get access to the current Git revision.
+This can be used to add the Git revision e.g. to the war file name:
+
+{code}
+
+import grails.plugin.gitcheck.GitClient
+
+def currentDate = {
+  new Date().format("yyyy_MM_dd")
+}
+
+def gitRev = GitClient.currentRevision()
+
+grails.project.war.file = "target/${appName}-${Environment.current.name}-${currentDate()}-${gitRev}.war"
+
+{code}
 
 h4. Release History and Acknowledgment
-* July 1st, 2013
-** 0.1 snapshot
-** [JIRA Issues|https://www.github.com/robertoschwald/grails-gitcheck/issues]
+* July 2nd, 2013
+** 0.1 initial release.
+** [JIRA Issues|http://jira.grails.org/browse/GRAILSPLUGINS]

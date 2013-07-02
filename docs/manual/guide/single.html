@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Gitcheck Plugin 0.1-SNAPSHOT</title>
+        <title>Gitcheck Plugin 0.1</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -53,7 +53,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Gitcheck Plugin - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Robert Oschwald</p>
-                            <p><strong>Version:</strong> 0.1-SNAPSHOT</p>
+                            <p><strong>Version:</strong> 0.1</p>
                             
                         </div>
 
@@ -78,23 +78,36 @@ project is current while generating a war file.<p class="paragraph"/>The followi
 <li>Check for unpushed change sets</li>
 <li>Check for unpulled origin change sets</li>
 </ul><p class="paragraph"/><h4>Configuration</h4>
-In your Config.groovy file, you can set the gitcheck properties on a per-Environment base.
-Example<p class="paragraph"/><div class="code"><pre>// <span class="java&#45;keyword">default</span> branch(es)
-scm.validBranch = &#91;'master'&#93;<p class="paragraph"/>integration &#123;
-    scm.validBranch = 'deploy/integration'
+You can control the plugin behavior by the following configuration options (usually set in Config.groovy):
+<ul class="star">
+<li>scm.validBranch - The valid branch name(s) for this build</li>
+<li>scm.skipGitBranchCheck - If true, do not perform the Git branch check &#91;false&#93;</li>
+<li>scm.skipGitCommitCheck - If true, do not perform uncommitted changes check. &#91;false&#93;</li>
+<li>scm.skipGitPushedCheck - If true, do not perform unpushed change sets check. &#91;false&#93;</li>
+<li>scm.skipGitOriginCheck - If true, perform origin unpulled change sets check. &#91;false&#93;</li>
+</ul><p class="paragraph"/>You can set the gitcheck properties as usual on a per-Environment base.
+Example:<p class="paragraph"/><div class="code"><pre>scm.validBranch = 'master' // <span class="java&#45;keyword">default</span> branch<p class="paragraph"/>development &#123;
+    scm.skipGitCommitCheck = <span class="java&#45;keyword">true</span>
     scm.skipGitPushedCheck = <span class="java&#45;keyword">true</span>
-&#125;<p class="paragraph"/>integration2 &#123;
-    scm.validBranch = 'integration2'
     scm.skipGitOriginCheck = <span class="java&#45;keyword">true</span>
-&#125;<p class="paragraph"/>production &#123;
+&#125;<p class="paragraph"/>ci &#123;
+    scm.validBranch = 'ci'
+&#125;<p class="paragraph"/>testserver1 &#123;
+    scm.validBranch = 'deploy/testserver1'
+    scm.skipGitPushedCheck = <span class="java&#45;keyword">true</span> // just an example
+&#125;<p class="paragraph"/>
+production &#123;
     scm.validBranch = 'deploy/production'
-&#125;</pre></div><p class="paragraph"/>
-<h4>Release History and Acknowledgment</h4>
+&#125;</pre></div><p class="paragraph"/><h4>Current Revision</h4>
+You can import the GitClient into your BuildConfig.groovy to get access to the current Git revision.
+This can be used to add the Git revision e.g. to the war file name:<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">import</span> grails.plugin.gitcheck.GitClient<p class="paragraph"/>def currentDate = &#123;
+  <span class="java&#45;keyword">new</span> Date().format(<span class="java&#45;quote">"yyyy_MM_dd"</span>)
+&#125;<p class="paragraph"/>def gitRev = GitClient.currentRevision()<p class="paragraph"/>grails.project.war.file = <span class="java&#45;quote">"target/$&#123;appName&#125;&#45;$&#123;Environment.current.name&#125;&#45;$&#123;currentDate()&#125;&#45;$&#123;gitRev&#125;.war"</span></pre></div><p class="paragraph"/><h4>Release History and Acknowledgment</h4>
 <ul class="star">
-<li>July 1st, 2013</li>
+<li>July 2nd, 2013</li>
 <ul class="star">
-<li>0.1 snapshot</li>
-<li><a href="../ref/Httpswwwgithubcomrobertoschwaldgrailsgitcheckissues/JIRA Issues.html" class="https://www.github.com/robertoschwald/grails-gitcheck/issues">JIRA Issues</a></li>
+<li>0.1 initial release.</li>
+<li><a href="http://jira.grails.org/browse/GRAILSPLUGINS" target="blank">JIRA Issues</a></li>
 </ul></ul><p class="paragraph"/>
 
                     </div>
