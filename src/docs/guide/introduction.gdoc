@@ -67,6 +67,8 @@ grails.project.war.file = "target/${appName}-${Environment.current.name}-${curre
 {code}
 
 h4. Release History and Acknowledgment
+* July, 3rd, 2013
+ * Cleanup BuildConfig
 * July 2nd, 2013
 ** 0.1 initial release.
 ** [JIRA Issues|http://jira.grails.org/browse/GRAILSPLUGINS]

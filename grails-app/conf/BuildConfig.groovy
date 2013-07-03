@@ -7,8 +7,8 @@ grails.project.dependency.resolution = {
   log "warn"
 
   repositories {
-    mavenRepo "http://192.168.121.100:8081/artifactory/libs-releases"
     grailsCentral()
+    mavenCentral()
   }
 
   dependencies {
