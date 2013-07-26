@@ -33,14 +33,14 @@ eventCreateWarStart = { warName, stagingDir ->
 
   // check unpushed changes
   if (!config.scm.skipGitPushedCheck){
-     assert !grails.plugin.gitcheck.GitClient.branchIsAheadOfRemote(), "Local branch is ahead of origin!"
+     assert !grails.plugin.gitcheck.GitClient.branchIsAheadOfRemote(), "Local branch is ahead of origin! Please perform push."
   } else {
     println "Skipping git push check as scm.skipGitPushedCheck is set in Config.groovy"
   }
 
   // check origin un-pulled changes
   if (!config.scm.skipGitOriginCheck) {
-    println "Checking if origin is ahead"
+    // println "Checking if origin is ahead"
     assert !grails.plugin.gitcheck.GitClient.remoteIsAheadOfBranch(grails.plugin.gitcheck.GitClient.currentBranchName()), "Origin is ahead of local branch. Please perform pull"
   } else {
     println "Skipping git origin check as scm.skipGitOriginCheck is set in Config.groovy"

@@ -23,7 +23,7 @@ class GitClient {
     def baseDir = repoBasePath;
     if (!baseDir && BuildSettingsHolder?.settings?.baseDir) {
       baseDir = "${BuildSettingsHolder?.settings?.baseDir}"
-      println "Basedir $baseDir"
+      // println "Basedir $baseDir"
     } else if (!baseDir) {
       baseDir = '.'  // fallback
       println "using . as repodir"
