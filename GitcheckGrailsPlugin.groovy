@@ -32,7 +32,7 @@ Provides the ability to check Git respoitory status, e.g. uncommited files, miss
 //    def developers = [ [ name: "Joe Bloggs", email: "joe@bloggs.net" ]]
 
     // Location of the plugin's issue tracker.
-    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GRAILSPLUGINS" ]
+    def issueManagement = [ system: "Github", url: "https://github.com/robertoschwald/grails-gitcheck/issues" ]
 
     // Online location of the plugin's browseable source code.
     def scm = [ url: "https://github.com/robertoschwald/grails-gitcheck" ]
