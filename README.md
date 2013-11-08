@@ -54,11 +54,3 @@ credential.helper authentication in JGit, this plugin for now uses the native Gi
 remote operations to support Git, SSH and HTTP(s) protocols.
 
 Please ensure your native Git client is available on the PATH environment variable.
-
-
-
-
-
-
-
-
