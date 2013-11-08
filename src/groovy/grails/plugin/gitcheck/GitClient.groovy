@@ -1,6 +1,7 @@
 package grails.plugin.gitcheck
 
 import grails.util.BuildSettingsHolder
+
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.ResetCommand
 import org.eclipse.jgit.lib.Constants
@@ -12,19 +13,17 @@ import org.eclipse.jgit.util.FS
 /**
  *  Simple Git Client.
  *
- * User: roos
- * Date: 27.06.13
- * Time: 14:15
- *
+ * @author roos
  */
 class GitClient {
 
   private static Repository getRepo(String repoBasePath) {
-    def baseDir = repoBasePath;
+    def baseDir = repoBasePath
     if (!baseDir && BuildSettingsHolder?.settings?.baseDir) {
       baseDir = "${BuildSettingsHolder?.settings?.baseDir}"
       // println "Basedir $baseDir"
-    } else if (!baseDir) {
+    }
+    else if (!baseDir) {
       baseDir = '.'  // fallback
       println "using . as repodir"
     }
@@ -33,22 +32,22 @@ class GitClient {
 
   /* get current revision */
 
-  public static def currentRevision() {
+  static String currentRevision() {
     Repository repository = getRepo()
-    ObjectId objId = repository.resolve(Constants.HEAD);
-    return "${objId.getName()}"
+    ObjectId objId = repository.resolve(Constants.HEAD)
+    objId.getName()
   }
 
   /* get current branch name */
 
-  public static def currentBranchName(String _baseDir) {
+  static String currentBranchName(String _baseDir) {
     def repository = getRepo(_baseDir)
     return repository.getFullBranch().substring(Constants.R_HEADS.length())
   }
 
   /* get untracked changes */
 
-  public static def uncommittedChanges() {
+  static uncommittedChanges() {
     Git git = new Git(getRepo())
     def uncommitted = []
     def status = git.status().call()
@@ -61,36 +60,36 @@ class GitClient {
     uncommitted.flatten()
   }
 
-  public static def addFile(String fileName){
+  static void addFile(String fileName){
     Git git = new Git(getRepo())
     git.add().addFilepattern(fileName).call()
   }
 
-  public static def removeFromIndex(String fileName){
+  static void removeFromIndex(String fileName){
     Git git = new Git(getRepo())
     def result = git.rm().addFilepattern(fileName).call()
     println "removed $fileName from index."
   }
 
-  public static def commit(String message){
+  static commit(String message){
     Git git = new Git(getRepo())
     git.commit().setMessage(message).call()
   }
 
-  public static def push(){
+  static def push(){
     Git git = new Git(getRepo())
     git.push().call()
   }
 
   /* Pull from origin */
-  public static def pull(){
+  static pull(){
     // Note: cannot use Jgit yet due to HTTP auth impl problem
     // Git git = new Git(getRepo())
     // git.pull().call()
     gitExec(['pull'])
   }
 
-  public static def deleteLastCommit(){
+  static void deleteLastCommit(){
     Git git = new Git(getRepo())
     git.reset().setMode(ResetCommand.ResetType.SOFT).setRef('HEAD^').call()
     println "removed last commit."
@@ -108,14 +107,13 @@ class GitClient {
     return hasRemoteModifications(branchname)
   }
 
-  static def hasRemoteModifications(String branchname) {
-    getRemoteModifications(branchname) == null ? false : true
+  static boolean hasRemoteModifications(String branchname) {
+    getRemoteModifications(branchname) != null
   }
 
-  static def getRemoteModifications(String branchname) {
+  static getRemoteModifications(String branchname) {
     String arg = branchname + "..origin/" + branchname
-    def remoteModifications = gitExec(['diff', arg])
-    return remoteModifications
+    return gitExec(['diff', arg])
   }
 
   // Helper for external git.
@@ -125,6 +123,7 @@ class GitClient {
     if (!stdErr.isEmpty()) {
       throw new GitException(stdErr)
     }
+
     def stdOut = proc.in.text
     if (!stdOut.isEmpty()) {
       def result = stdOut
@@ -136,8 +135,6 @@ class GitClient {
       }
       // println " $logStr - ${gitArgs}:  >${result}< \n ${"#" * 10}"
       result
-    } else {
-      null
     }
   }
 }

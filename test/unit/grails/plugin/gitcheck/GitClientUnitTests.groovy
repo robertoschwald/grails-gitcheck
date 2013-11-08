@@ -1,23 +1,17 @@
 package grails.plugin.gitcheck
 
-import grails.plugin.gitcheck.GitClient
-import grails.test.GrailsUnitTestCase
 import static grails.test.MockUtils.*
+import grails.test.GrailsUnitTestCase
 
 /**
- *
- * User: roos
- * Date: 01.07.13
- * Time: 09:38
- *
+ * @author roos
  */
 class GitClientUnitTests extends GrailsUnitTestCase {
 
   protected void setUp() {
     super.setUp()
-    mockLogging(this.class, true)
+    mockLogging(getClass(), true)
   }
-
 
   void testCurrentBranchName() {
     log.debug("testCurrentBranchName()")
@@ -33,7 +27,6 @@ class GitClientUnitTests extends GrailsUnitTestCase {
     assert uncommitted.contains(testFileName), "Current repo does not contain expected uncomitted testFile"
     testFile.delete()
   }
-
 
   void testBranchIsAheadOfRemote(){
     log.debug("testBranchIsAheadOfRemote()")
