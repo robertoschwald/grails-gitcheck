@@ -2,6 +2,11 @@
 
 eventCreateWarStart = { warName, stagingDir ->
 
+  if (config.scm.disablePlugin) {
+    println "Skipping gitcheck plugin as scm.disablePlugin is set in Config.groovy"
+    return
+  }
+
   classLoader.loadClass('grails.plugin.gitcheck.GitClient')
   classLoader.loadClass('grails.plugin.gitcheck.GitException')
 

@@ -38,6 +38,8 @@ scm.skipGitPushedCheck - If true, do not perform unpushed change sets check. [fa
 
 scm.skipGitOriginCheck - If true, perform origin unpulled change sets check. [false]
 
+scm.disablePlugin - If true, the plugin is disabled. [false] 
+
 
 
 [value] denotes default values.
