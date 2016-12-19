@@ -13,6 +13,7 @@ grails.project.dependency.resolution = {
   }
 
   dependencies {
+    compile "commons-io:commons-io:2.5"
     compile "org.eclipse.jgit:org.eclipse.jgit:2.3.1.201302201838-r"
     test("org.gmock:gmock:0.8.1") {
       export = false
