@@ -1,5 +1,5 @@
 class GitcheckGrailsPlugin {
-    def version = "0.2.2"
+    def version = "0.3.0-SNAPSHOT"
     def grailsVersion = "2.0 > *"
     def title = "Gitcheck Plugin"
     def author = "Robert Oschwald"
