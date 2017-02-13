@@ -1,17 +1,13 @@
-GitCheck Grails Plugin
-======================
+GitCheck Grails Plugin for Grails 2.x
+=====================================
 
 This plugin provides the ability to check git status of a local repository on
-war file generation.
+Grails 2.x war file generation.
 
 It can be used to ensure your changes are committed and pushed as well as your
 project is current while generating a war file.
 
-
-
 The following tests are performed:
-
-
 
 -   Check for valid branch name
 
@@ -26,8 +22,6 @@ The following tests are performed:
 Configuration Options
 ---------------------
 
-
-
 scm.validBranch - The valid branch name (s) for this build. [master]
 
 scm.skipGitBranchCheck - If true, do not perform the git branch check [false]
@@ -40,11 +34,7 @@ scm.skipGitOriginCheck - If true, perform origin unpulled change sets check. [fa
 
 scm.disablePlugin - If true, the plugin is disabled. [false] 
 
-
-
 [value] denotes default values.
-
-
 
 Git client used
 ---------------
@@ -56,3 +46,7 @@ credential.helper authentication in JGit, this plugin for now uses the native Gi
 remote operations to support Git, SSH and HTTP(s) protocols.
 
 Please ensure your native Git client is available on the PATH environment variable.
+
+
+If you need such a funtionality for Grails 3.x, use a Gradle Git plugin.
+
