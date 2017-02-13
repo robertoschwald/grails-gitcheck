@@ -1,5 +1,5 @@
-GitCheck Grails Plugin for Grails 2.x
-=====================================
+GitCheck Plugin for Grails 2.x
+==============================
 
 This plugin provides the ability to check git status of a local repository on
 Grails 2.x war file generation.
